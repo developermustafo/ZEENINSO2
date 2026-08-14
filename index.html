@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SO2_ZENIN bilan 1vs1 Duel Ariza Portali</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-red-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-red-600/30">
+                    ZN
+                </div>
+                <div>
+                    <h1 class="text-xl font-black text-white tracking-wider">{{ blogger.name }}</h1>
+                    <span class="text-xs text-red-400 font-mono">Rasmiy ID: {{ blogger.standoff_id }}</span>
+                </div>
+            </div>
+
+            <a href="{{ blogger.youtube_url }}" target="_blank" class="px-4 py-2 rounded-xl bg-red-600/20 border border-red-500/40 hover:bg-red-600 text-red-400 hover:text-white text-xs font-bold uppercase transition flex items-center gap-2">
+                <span>YouTube ({{ blogger.subscribers }})</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main 1vs1 Duel Form -->
+    <main class="max-w-2xl w-full mx-auto px-4 py-10 my-auto">
+        <div class="p-6 sm:p-8 rounded-3xl bg-slate-900 border-2 border-red-500/40 shadow-2xl shadow-red-950/50 space-y-6">
+            
+            <!-- Title -->
+            <div class="text-center space-y-2 border-b border-slate-800 pb-5">
+                <span class="px-3.5 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-xs font-bold uppercase">
+                    ⚔️ STANDOFF 2 • 1VS1 JONLI EFIR DUEL
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-wide">
+                    SO2_ZENIN GA <span class="text-red-500">1VS1 CHAQIRUV</span> YUBORISH
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400">
+                    Arizangiz to'g'ridan-to'g'ri Zeninning admin terminaliga yuboriladi va jonli efirda navbatingiz kelganda chaqirilasiz!
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form onsubmit="handleSendDuel(event)" class="space-y-4">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 block mb-1.5 uppercase">O'yindagi Nikingiz *</label>
+                        <input id="player_name" type="text" required placeholder="Masalan: JASUR_PRO" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-red-500 transition">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 block mb-1.5 uppercase">Standoff 2 ID Raqamingiz *</label>
+                        <input id="so2_id" type="number" required placeholder="Masalan: 108483921" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white font-mono placeholder-slate-600 focus:outline-none focus:border-red-500 transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 block mb-1.5 uppercase">O'yindagi Darajangiz (Rank)</label>
+                        <select id="rank" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:outline-none focus:border-red-500 transition">
+                            <option value="The Origin">The Origin (Eng Yuqori)</option>
+                            <option value="Elite Master">Elite Master</option>
+                            <option value="Master" selected>Master</option>
+                            <option value="Champion">Champion</option>
+                            <option value="Diamond">Diamond</option>
+                            <option value="Gold">Gold</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 block mb-1.5 uppercase">1vs1 Qurol Turi</label>
+                        <select id="weapon" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:outline-none focus:border-red-500 transition">
+                            <option value="AWM Sniper Only">AWM Sniper Only (Rust / Sandstone)</option>
+                            <option value="AKR 12 / M4 Duel">AKR 12 / M4 Duel</option>
+                            <option value="Desert Eagle Only">Desert Eagle Only</option>
+                            <option value="Pichoq (Knife) Jangi">Pichoq (Knife) Jangi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-slate-300 block mb-1.5 uppercase">Telegram Username (Bog'lanish uchun)</label>
+                    <input id="telegram" type="text" placeholder="@sizning_nikingiz" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-red-500 transition">
+                </div>
+
+                <button id="submit-btn" type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-extrabold text-sm uppercase tracking-wider transition shadow-lg shadow-red-600/30 active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+                    <span>⚔️ 1VS1 ARIZANI YUBORISH</span>
+                </button>
+            </form>
+
+            <!-- Success Box -->
+            <div id="status-card" class="hidden p-5 rounded-2xl bg-slate-950 border-2 border-emerald-500/60 space-y-2">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                    <span>✅ ARIZA ZENIN TERMINALIGA YUBORILDI!</span>
+                </div>
+                <p id="status-msg" class="text-xs text-slate-300"></p>
+                <div class="text-xs font-mono text-amber-400 pt-1" id="ticket-no"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 py-4 text-center text-xs text-slate-500">
+        © 2026 SO2_ZENIN 1vs1 Duel Match Platform. Barcha arizalar nazoratda.
+    </footer>
+
+    <script>
+        async function handleSendDuel(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = "YUBORILMOQDA...";
+
+            const payload = {
+                player_name: document.getElementById('player_name').value,
+                so2_id: document.getElementById('so2_id').value,
+                rank: document.getElementById('rank').value,
+                weapon: document.getElementById('weapon').value,
+                telegram: document.getElementById('telegram').value
+            };
+
+            try {
+                const response = await fetch('/api/submit-duel/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                const card = document.getElementById('status-card');
+                const msg = document.getElementById('status-msg');
+                const ticket = document.getElementById('ticket-no');
+
+                if (data.status === 'success') {
+                    card.classList.remove('hidden');
+                    msg.innerText = data.message + " Jonli efirda navbatingizni kuting!";
+                    ticket.innerText = "Sizning Match Chiptangiz: " + data.ticket_id;
+                    btn.innerText = "✅ ARIZA YUBORILDI";
+                } else {
+                    alert(data.message || 'Xatolik yuz berdi!');
+                    btn.disabled = false;
+                    btn.innerText = "⚔️ 1VS1 ARIZANI YUBORISH";
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server bilan bog'lanishda xatolik!");
+                btn.disabled = false;
+                btn.innerText = "⚔️ 1VS1 ARIZANI YUBORISH";
+            }
+        }
+    </script>
+</body>
+</html>
